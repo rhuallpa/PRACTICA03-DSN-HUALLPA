@@ -1,0 +1,87 @@
+{% extends 'base.html' %} 
+{% block title %}Gestión de Cursos{% endblock %}
+
+{% block body %}
+<form action="{% url 'buscar_curso' %}" class="d-none d-sm-inline-block form-inline mr-auto ml-md-6 my-4 my-md-3 mw-100 navbar-search" method="POST">
+  {% csrf_token %}
+  <div class="input-group">
+    <input type="text" class="form-control bg-light border-4 small" placeholder="Ingresa el primer caracter del nombre..." name="buscar" value="{{ request.POST.buscar }}">
+    <br>
+    <div class="input-group-append">
+      <button class="btn btn-success" type="submit">Buscar curso </button>
+    </div>
+  </div>
+</form>
+<div class="row">
+  <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+
+    <!-- Registro de cursos-->
+    <h4>Registro de Cursos</h4>
+    <div class="card">
+      <div class="card-body">
+        <form action="{% url 'registrar_curso' %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <input type="text" id="codigo" name="codigo" placeholder="Código:" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre:" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="text" id="creditos" name="creditos" placeholder="Créditos:" class="form-control">
+          </div>
+          <div class="form-group">
+            <select name="especialidad" id="especialidad" class="form-control">
+              <option value="">Seleccione la Especialidad:</option>
+              {% for especialidad in especialidades %}
+                <option value="{{ especialidad.id }}" {% if especialidad.id == especialidad_id %}selected{% endif %}>{{ especialidad.nombre }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <select name="docente" id="docente" class="form-control">
+              <option value="">Seleccione el Docente:</option>
+              {% for docente in docentes %}
+              <option value="{{ docente.id }}" {% if curso.docente.id == docente.id %}selected{% endif %}>{{ docente.nombre }}</option>
+              {% endfor %}
+            </select>
+          </div>          
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-outline-primary form-control">Guardar Curso</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+    <h4>Listado de Cursos</h4>
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th>Código:</th>
+          <th>Nombre:</th>
+          <th>Créditos:</th>
+          <th>Especialidad:</th>
+          <th>Docente:</th>
+          <th colspan="2">Opciones de Manejo:</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for curso in cursos %}
+        <tr>
+          <td>{{ curso.codigo }}</td>
+          <td>{{ curso.nombre }}</td>
+          <td>{{ curso.creditos }}</td>
+          <td>{{ curso.especialidad.nombre }}</td>
+          <td>{{ curso.docente.apellido }}, {{ curso.docente.nombre }}</td>
+          <td><a href="{% url 'edicioncurso' codigo=curso.codigo %}" class="btn btn-outline-success">Editar</a></td>
+          <td><a href="{% url 'eliminarcurso' codigo=curso.codigo %}" class="btn btn-danger">Eliminar</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

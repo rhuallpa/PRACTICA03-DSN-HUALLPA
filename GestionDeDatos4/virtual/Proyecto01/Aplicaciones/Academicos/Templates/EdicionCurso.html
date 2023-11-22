@@ -1,0 +1,51 @@
+{% extends './base.html' %}
+
+{% block title %}Edición de Curso{% endblock %}
+
+{% block body %}
+<div class="row">
+  <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 offset-md-4">
+    <h2>Edición de Cursos</h2>
+    <div class="card">
+      <div class="card-body">
+        <form action="{% url 'editar_curso' curso.codigo %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="txtcodigo">Código:</label>
+            <input type="text" id="txtcodigo" name="txtcodigo" value="{{ curso.codigo }}" class="form-control" disabled>
+          </div>
+          <div class="form-group">
+            <label for="txtnombre">Nombre:</label>
+            <input type="text" id="txtnombre" name="txtnombre" value="{{ curso.nombre }}" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="txtcreditos">Créditos:</label>
+            <input type="text" id="txtcreditos" name="txtcreditos" value="{{ curso.creditos }}" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="txtespecialidad">Especialidad:</label>
+            <select id="txtespecialidad" name="txtespecialidad" class="form-control">
+              {% for especialidad in especialidades %}
+              <option value="{{ especialidad.id }}" {% if curso.especialidad.id == especialidad.id %}selected{% endif %}>{{ especialidad.nombre }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="txtdocente">Docente:</label>
+            <select id="txtdocente" name="txtdocente" class="form-control">
+              {% for docente in docentes %}
+              <option value="{{ docente.id }}" {% if curso.docente.id == docente.id %}selected{% endif %}>{{ docente.nombre }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success form-control">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

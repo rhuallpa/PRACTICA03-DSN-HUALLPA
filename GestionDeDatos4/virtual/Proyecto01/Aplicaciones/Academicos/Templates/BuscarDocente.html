@@ -1,0 +1,60 @@
+{% extends './base.html' %}
+{% block title %}Búsqueda de Docentes{% endblock %}
+
+
+{% block body %}
+
+  <form action="{% url 'buscar_docente' %}" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+      <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..." name="buscar" value="{{ request.POST.buscar }}">
+      <div class="input-group-append">
+        <button class="btn btn-outline-success" type="submit">Buscar por nombre</button>
+      </div>
+    </div>
+  </form>
+  <form action="{% url 'buscar_docente' %}" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+      <input type="date" class="form-control bg-light border-0 small" placeholder="Buscar..." name="buscar" value="{{ request.POST.buscar }}">
+      <div class="input-group-append">
+        <button class="btn btn-outline-success" type="submit">Buscar por fecha de ingreso</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h4>Listado de Docentes segun la busqueda:</h4>
+      {% if docentes %}
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th>Apellido:</th>
+            <th>Nombre:</th>
+            <th>Fecha de Ingreso:</th>
+            <th>DNI:</th>
+            <th>Teléfono:</th>
+            <th colspan="2">Opciones de Manejo:</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for docente in docentes %}
+            <tr>
+              <td>{{ docente.apellido }}</td>
+              <td>{{ docente.nombre }}</td>
+              <td>{{ docente.f_ingreso }}</td>
+              <td>{{ docente.dni }}</td>
+              <td>{{ docente.telefono }}</td>
+              <td><a href="{% url 'ediciondocente' docente.id %}" class="btn btn-info">Editar</a></td>
+              <td><a href="{% url 'eliminardocente' docente.id %}" class="btn btn-danger">Eliminar</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <h3>No se encontraron resultados.</h3>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

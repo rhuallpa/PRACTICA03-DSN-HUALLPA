@@ -1,0 +1,44 @@
+{% extends './base.html' %}
+{% block title %}Edición de Docente{% endblock %}
+
+{% block body %}
+<div class="row">
+  <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 offset-md-4">
+    <h2>Edición de Docente</h2>
+    <div class="card">
+
+      <div class="card-body">
+
+        <form action="{%url 'editar_docente' docente.id%}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="id" value="{{ docente.id }}">
+          <div class="form-group">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" value="{{ docente.apellido }}" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ docente.nombre }}" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="f_ingreso">Fecha de Ingreso:</label>
+            <input type="date" id="f_ingreso" name="f_ingreso" value="{{ docente.f_ingreso }}" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="dni">DNI:</label>
+            <input type="text" id="dni" name="dni" value="{{ docente.dni }}" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" value="{{ docente.telefono }}" class="form-control">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success form-control">Guardar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

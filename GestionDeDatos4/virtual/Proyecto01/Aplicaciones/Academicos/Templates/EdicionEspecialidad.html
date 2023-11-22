@@ -1,0 +1,28 @@
+{% extends './base.html' %}
+{% block title %}Edición de Especialidad{% endblock %}
+
+{% block body %}
+<div class="row">
+  <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 offset-md-4">
+    <h2>Edición de Especialidad</h2>
+    <div class="card">
+      <div class="card-body">
+        <form action="{% url 'editarespecialidad' especialidad_id=especialidad.id %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ especialidad.nombre }}" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion" value="{{ especialidad.descripcion }}" class="form-control">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success form-control">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

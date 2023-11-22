@@ -1,0 +1,84 @@
+{% extends 'base.html' %} 
+{% block title %}Gestión de Alumnos{% endblock %}
+
+{% block body %}
+
+<form action="{% url 'buscar_alumno' %}" class="d-none d-sm-inline-block form-inline mr-auto ml-md-5 my-2 my-md-0 mw-100 navbar-search" method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+    <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..." name="buscar" value="{{ request.POST.buscar }}">
+    <div class="input-group-append">
+        <button class="btn btn-info" type="submit">Buscar Alumno</button>
+    </div>
+    </div>
+</form>
+
+<div class="row">
+  <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+    <h4>Registro de Alumno:</h4>
+    <div class="card">
+      <div class="card-body">
+        <form action="{% url 'registrar_alumno' %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <input type="text" id="txtid_alumno" name="txtid_alumno" placeholder="Codigo:" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="txtapellido" name="txtapellido" placeholder="Apellido:" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="txtnombre" name="txtnombre" placeholder="Nombre:" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="text" id="txtdni" name="txtdni" placeholder="DNI:" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="date" id="txtfechanacimiento" name="txtfechanacimiento" placeholder="Fecha de nacimiento:" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="text" id="txttelefono" name="txttelefono" placeholder="Telefono:" class="form-control">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success form-control">Guardar Alumno</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+    <h4>Listado de Alumnos:</h4>
+    <table class="table table-dark">
+      <thead>
+        <tr>
+
+          <th>Codigo:</th>
+          <th>Apellido:</th>
+          <th>Nombre:</th>
+          <th>DNI:</th>
+          <th>Nombre:</th>
+          <th>Fecha de nacimiento:</th>
+          <th>Telefono:</th>
+          <th colspan="2">Opciones de Manejo:</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        {% for alumno in alumnos %}
+        <tr>
+          <td>{{ alumno.id_alumno }}</td>
+          <td>{{ alumno.apellido }}</td>
+          <td>{{ alumno.nombre }}</td>
+          <td>{{ alumno.dni }}</td>
+          <td>{{ alumno.fecha_nacimiento }}</td>
+          <td>{{ alumno.telefono }}</td>
+          <td><a href="{% url 'editaralumno' id_alumno=alumno.id_alumno %}" class="btn btn-outline-info">Editar</a>
+          <td><a href="{% url 'eliminaralumno' id_alumno=alumno.id_alumno %}" class="btn btn-outline-danger">Eliminar</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
